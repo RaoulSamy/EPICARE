@@ -1,0 +1,12 @@
+# Dependencies for EPICARE system (from the backend folder)
+numpy
+Flask
+tensorflow
+Pillow
+pandas
+werkzeug
+scikit-learn
+joblib
+h5py
+groq  
+pymongo
