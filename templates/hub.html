@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPICARE - Skin Cancer Detection</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #495057 !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        .hero-section {
+            background: url('/static/images/img3.png') no-repeat center center;
+            background-size: cover;
+            position: relative;
+            color: #ffffff;
+            padding: 100px 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+        }
+        
+
+        .hero-section::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Dark overlay */
+            border-radius: 10px;
+            z-index: 1;
+        }
+
+        .hero-section h1, .hero-section p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .btn-primary-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 5px;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+        }
+
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #004080;
+            transform: scale(1.05);
+        }
+
+        .container {
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        /* Health Hub Form Section */
+        .health-hub {
+            padding: 50px;
+            background-color: #f0f2f5;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .health-hub h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: #343a40;
+            font-weight: 600;
+        }
+
+        .health-hub form {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .health-hub label {
+            font-size: 18px;
+            color: #495057;
+            margin-bottom: 10px;
+        }
+
+        .health-hub input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 16px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .health-hub button {
+            width: 100%;
+            padding: 12px 30px;
+            background-color: #007bff;
+            border: none;
+            color: #fff;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .health-hub button:hover {
+            background-color: #0056b3;
+            transform: scale(1.02);
+        }
+
+        /* Recommendation Section */
+        .recommendations {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendations h3 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #343a40;
+            font-weight: 600;
+        }
+
+        .recommendations p {
+            font-size: 18px;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+
+        .recommendations ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .recommendations li {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .recommendations li strong {
+            font-size: 18px;
+            color: #495057;
+        }
+
+        .recommendations li p {
+            font-size: 16px;
+            color: #6c757d;
+        }
+
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 36px;
+            }
+
+            .hero-section p {
+                font-size: 20px;
+            }
+
+            .feature-box {
+                padding: 15px;
+            }
+
+            .feature-box img {
+                width: 80px;
+                height: 80px;
+            }
+
+            .health-hub h2 {
+                font-size: 28px;
+            }
+
+            .recommendations h3 {
+                font-size: 22px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">EPICARE</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/skincare">Skin Care</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/monitoring">Side Effects Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracker">Treatment Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hub">Health Hub</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/chatbot">Chatbot</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>EPICARE - Skin Cancer Care</h1>
+        <p>Get personalized hospital recommendations for expert skin cancer treatment.</p>
+    </div>
+    
+    
+
+    <!-- Health Hub Form Section -->
+    <div id="health-hub" class="container health-hub">
+        <h2>Health Hub</h2>
+        <alt="Health Hub Image" class="img-fluid mb-4 rounded">
+        <form action="{{ url_for('hub') }}" method="post">
+            <label for="patient_id">Patient ID:</label>
+            <input type="text" id="patient_id" name="patient_id" required>
+            <button type="submit" class="btn-primary-custom">Get Recommendations</button>
+        </form>
+    </div>
+
+    <!-- Recommendation Section -->
+    {% if result %}
+    <div class="container recommendations">
+        <h3>Recommendations:</h3>
+        <p>Patient Condition: {{ result.patient_condition }}</p>
+        <ul>
+            {% for hospital in result.recommendations %}
+            <li>
+                <strong>Hospital Name:</strong> {{ hospital.HospitalName }}<br>
+                <strong>Specializations:</strong> {{ hospital.Specialization }}<br>
+                <strong>Address:</strong> {{ hospital.Address }}<br>
+                <strong>Rating:</strong> {{ hospital.Rating }}<br>
+                <strong>Reviews:</strong> {{ hospital.Reviews }}<br>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 EPICARE. All rights reserved.</p>
+    </footer>
+
+    <!-- Optional JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPICARE - Skin Cancer Detection</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 28px;
+            color: #343a40;
+        }
+        
+        .navbar-nav .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #495057 !important;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #007bff !important;
+        }
+        
+        .container {
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+            max-width: 800px; /* Adjust container width */
+        }
+        
+        .hero-section {
+            position: relative;
+            background: url('/static/images/image6.jpg') no-repeat center center;
+            background-size: cover;
+            color: #ffffff;
+            padding: 100px 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            margin-bottom: 30px;
+            height: 400px; /* Adjusted height */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+            border-radius: 10px;
+        }
+        
+        .hero-section h1 {
+            position: relative;
+            z-index: 2;
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+            color: #f8f9fa;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+        
+        .hero-section p {
+            position: relative;
+            z-index: 2;
+            font-size: 24px;
+            margin-bottom: 30px;
+            color: #f8f9fa;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+        }
+        
+        .btn-primary-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            font-size: 18px;
+            padding: 12px 30px;
+            border-radius: 5px;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+        
+        .btn-primary-custom:hover {
+            background-color: #0056b3;
+            border-color: #004080;
+        }
+        
+        .form-group label {
+            font-size: 16px;
+            color: #495057;
+        }
+        
+        .form-control-file {
+            border-radius: 5px;
+        }
+        
+        .form-control-file:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.25);
+        }
+        
+        .form-text {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+        
+        .footer p {
+            margin: 0;
+        }
+        
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        
+        .footer .social-icons {
+            margin-top: 10px;
+        }
+        
+        .footer .social-icons a {
+            color: #ffffff;
+            margin: 0 10px;
+            font-size: 24px;
+            transition: color 0.3s;
+        }
+        
+        .footer .social-icons a:hover {
+            color: #007bff;
+        }
+        
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            margin: -1px;
+            padding: 0;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+        
+        /* Media Queries */
+        @media (max-width: 767px) {
+            .hero-section {
+                padding: 60px 10px;
+                height: 300px;
+            }
+        
+            .hero-section h1 {
+                font-size: 36px;
+            }
+        
+            .hero-section p {
+                font-size: 20px;
+            }
+        
+            .container {
+                padding: 20px;
+            }
+        
+        }
+        /* Result Styling */
+        .result-container {
+            background-color: #f5f5f5; /* Light Gray */
+
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+            animation: fadeIn 1s ease-out; /* Animation */
+        }
+
+        .result-container h2 {
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .result-container p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #333;
+        }
+        .footer {
+            background-color: #343a40;
+            color: #ffffff;
+            padding: 20px 0;
+            text-align: center;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer p {
+            margin: 0;
+        }
+
+        .footer a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">EPICARE</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/skincare">Skin Care</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/monitoring">Side Effects Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracker">Treatment Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hub">Health Hub</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/chatbot">Chatbot</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <h1>Welcome to EPICARE</h1>
+        <p>Your partner in advanced skin cancer detection.</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <h2 class="mb-4">Skin Cancer Detection</h2>
+                <p class="lead">Upload your skin image for accurate and reliable skin cancer detection.</p>
+
+                <!-- Form Section -->
+                <form method="POST" enctype="multipart/form-data" aria-labelledby="formTitle">
+                    <h3 id="formTitle" class="sr-only">Upload Skin Image</h3> <!-- Hidden heading for screen readers -->
+
+                    <div class="form-group">
+                        <label for="file">Select a Skin Image:</label>
+                        <input type="file" class="form-control-file" name="file" id="file" required aria-required="true">
+                        <small class="form-text text-muted">Ensure the image is clear for best results.</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom btn-lg btn-block" aria-label="Submit Skin Image">Submit</button>
+                </form>
+                <div class="result-container">
+ <!-- Result Display -->
+ {% if result %}
+ <div class="result-container">
+     <p>{{ result }}</p>
+ </div>
+ {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 EPICARE. All rights reserved.</p>
+        <p><a >Privacy Policy</a> | <a >Terms of Service</a></p>
+
+    </footer>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Font Awesome for Social Icons -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+</body>
+</html>

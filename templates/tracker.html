@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tracker</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: url('{{ url_for("static", filename="images/image6.jpg") }}') no-repeat center center fixed;
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.3); /* Black overlay with 30% opacity */
+            z-index: -1; /* Ensure overlay is behind content */
+        }
+
+        .container {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.1); /* Slightly transparent white background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+            margin-top: 20px; /* Ensure it's not flush with the top */
+        }
+
+        .navbar {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #343a40;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        form label {
+            font-weight: bold;
+            margin-top: 10px;
+            color: #495057;
+        }
+
+        form input[type="text"], 
+        form input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            border: 1px solid #ced4da;
+        }
+
+        form input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        form input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .results-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .results-section h2 {
+            color: #343a40;
+        }
+
+        .results-section p {
+            color: #495057;
+            font-size: 18px;
+        }
+
+        
+    </style>
+</head>
+<body>
+   <!-- Navigation -->
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">EPICARE</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/">Home</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/skincare">Skin Care</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/monitoring">Side Effects Monitoring</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/tracker">Treatment Tracker</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/hub">Health Hub</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/chatbot">Chatbot</a>
+            </li>
+        </ul>
+    </div>
+</nav> 
+
+    <!-- Background Overlay -->
+    <div class="overlay"></div>
+
+    <!-- Tracker Form -->
+    <div class="container">
+        <h1>Skin Cancer Progression Tracker</h1>
+        <form method="POST">
+            <label for="age">Age:</label>
+            <input type="number" name="age" id="age" required>
+
+            <label for="sex">Sex (M/F):</label>
+            <input type="text" name="sex" id="sex" required>
+
+            <label for="family_history">Family history (0 for No, 1 for Yes):</label>
+            <input type="number" name="family_history" id="family_history" min="0" max="1" required>
+
+            <label for="sun_exposure">Sun exposure (Low/Medium/High):</label>
+            <input type="text" name="sun_exposure" id="sun_exposure" required>
+
+            <label for="skin_type">Skin type (I/II/III/IV/V/VI):</label>
+            <input type="text" name="skin_type" id="skin_type" required>
+
+            <label for="immunosuppression">Immunosuppression (0 for No, 1 for Yes):</label>
+            <input type="number" name="immunosuppression" id="immunosuppression" min="0" max="1" required>
+
+            <label for="cancer_type">Cancer type (BCC/Melanoma):</label>
+            <input type="text" name="cancer_type" id="cancer_type" required>
+
+            <label for="initial_stage">Initial stage (0/I/II/III/IV):</label>
+            <input type="text" name="initial_stage" id="initial_stage" required>
+
+            <label for="location">Location (Head/Neck/Trunk/Arms/Legs):</label>
+            <input type="text" name="location" id="location" required>
+
+            <label for="size">Size (mm):</label>
+            <input type="number" name="size" id="size" step="0.1" required>
+
+            <label for="ulceration">Ulceration (0 for No, 1 for Yes):</label>
+            <input type="number" name="ulceration" id="ulceration" min="0" max="1" required>
+
+            <label for="ptch1_mutation">PTCH1 mutation (0 for No, 1 for Yes):</label>
+            <input type="number" name="ptch1_mutation" id="ptch1_mutation" min="0" max="1" required>
+
+            <label for="treatment">Treatment:</label>
+            <input type="text" name="treatment" id="treatment" required>
+
+            <input type="submit" value="Submit">
+        </form>
+
+
+
+        {% if result %}
+            <div class="results-section">
+                <h2>Prediction Results:</h2>
+                <p>Predicted progression: {{ result['predicted_progression'] }}</p>
+                <p>Probability of progression: {{ result['progression_probability'] }}</p>
+            </div>
+        {% endif %}
+    </div>
+       <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 EPICARE. All rights reserved.</p>
+    </footer>
+</body>
+</html>

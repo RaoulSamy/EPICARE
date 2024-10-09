@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EPICARE - Skin Cancer Detection</title>
+    <!-- Favicon -->
+    <link rel="icon" href="{{ url_for('static', filename='images/favicon.png') }}" type="image/x-icon">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        
+        .container {
+            flex-grow: 1;
+        }
+        
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            width: 100%;
+            /* Ensure footer sticks to the bottom */
+            margin-top: auto;
+        }
+        
+        
+
+        .navbar {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 28px;
+            color: #343a40;
+        }
+
+        .navbar-nav .nav-link {
+            font-size: 18px;
+            font-weight: 500;
+            color: #495057 !important;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #007bff !important;
+        }
+
+        .carousel .item {
+            background: linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('/static/images/banner1.jpg') no-repeat;
+            background-size: cover;
+            height: 600px; /* Adjust the height if necessary */
+            position: relative;
+          
+        }
+
+        .carousel .item.item2 {
+            background: linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('/static/images/banner2.jpg') no-repeat center center;
+            background-size: cover;
+              text-align: center;      /* Center text inside */
+        }
+
+        .carousel .item.item3 {
+            background: linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('/static/images/banner3.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .carousel .item.item4 {
+            background: linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('/static/images/banner4.jpg') no-repeat center center;
+            background-size: cover;
+        }
+
+        .carousel .item.item5 {
+    background: -webkit-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('static/images/chatbot.jpg') no-repeat;
+    background: -moz-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('static/images/chatbot.jpg') no-repeat;
+    background: -ms-linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('static/images/chatbot.jpg') no-repeat;
+    background: linear-gradient(rgba(23, 22, 23, 0.2), rgba(23, 22, 23, 0.5)), url('static/images/chatbot.jpg') no-repeat;
+    background-size: cover;
+
+        }
+        
+        
+        
+        .carousel-caption h2,
+        .carousel-caption h3 {
+            font-size: 3.3em;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .carousel-caption h2 span,
+        .carousel-caption h3 span {
+            font-weight: 600;
+        }
+
+        .carousel-caption p {
+            letter-spacing: 7px;
+            font-size: 1.1em;
+            font-weight: 300;
+            color: #fff;
+            margin: 1em 0 2em 0;
+        }
+
+        .carousel-caption a {
+            color: #fff;
+            letter-spacing: 1px;
+            padding: 11px 20px;
+            background: none;
+            font-size: 0.9em;
+            border-radius: 0;
+            border: 1px solid #fff;
+        }
+
+        .carousel-caption a:hover {
+            background: #ffb900;
+            border: 1px solid #ffb900;
+        }
+
+        .codes {
+            padding: 5em 0;
+            background: #fff;
+        }
+
+        .codes.agileitsbg2 {
+            background: #E74C3C;
+            background-image: -webkit-linear-gradient(#ff9d2f, #ff6126);
+            background-image: -moz-linear-gradient(#ff9d2f, #ff6126);
+            background-image: -ms-linear-gradient(#ff9d2f, #ff6126);
+            background-image: linear-gradient(#ff9d2f, #ff6126);
+            padding-bottom: 10em;
+        }
+
+        .codes.agileitsbg3 {
+            background: #3498DB;
+            padding-bottom: 10em;
+        }
+
+        .codes.agileitsbg4 {
+            background: #2ECC71;
+            padding-bottom: 10em;
+        }
+
+        .carousel.slide.grid_3.grid_4 {
+            border-top: 10px solid #3ACFD5;
+            border-bottom: 10px solid #3a4ed5;
+            box-sizing: border-box;
+            background-position: 0 0, 100% 0;
+            background-repeat: no-repeat;
+            background-size: 10px 100%;
+            background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/PjxzdmcgeG1sbnM9Imh0d...); /* Base64 SVG Image */
+            background-image: -webkit-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%), -webkit-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%);
+            background-image: -moz-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%), -moz-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%);
+            background-image: -o-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%), -o-linear-gradient(top, #3acfd5 0%, #3a4ed5 100%);
+            background-image: linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%), linear-gradient(to bottom, #3acfd5 0%, #3a4ed5 100%);
+        }
+
+        .carousel-indicators {
+            bottom: 20%;
+            left: 50%;
+        }
+
+        .carousel-caption {
+            position: inherit;
+            min-height: 550px !important;
+            padding-top: 10em;
+            text-align: center;
+        }
+        
+        .footer {
+            background-color: #343a40;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #fff;
+        }
+
+        .footer a:hover {
+            color: #007bff;
+        }
+        
+        /* Features Section Styling */
+.feature-box {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.feature-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.feature-img {
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 15px;
+}
+
+.feature-box h3 {
+    font-size: 1.5em;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    color: #343a40;
+}
+
+.feature-box p {
+    font-size: 1em;
+    color: #6c757d;
+}
+
+.feature-box .btn-info {
+    margin-top: 10px;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.feature-box .btn-info:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+
+.footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    margin-top: auto; /* Pushes the footer to the bottom */
+    width: 100%;
+}
+.footer a {
+    color: #fff;
+}
+
+.footer a:hover {
+    color: #007bff;
+}
+
+.container {
+    flex: 1;
+}
+    </style>
+</head> 
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">EPICARE</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/skincare">Skin Care</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/monitoring">Side Effects Monitoring</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/tracker">Treatment Tracker</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hub">Health Hub</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/chatbot">Chatbot</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+<!-- Carousel -->
+<div id="carouselExampleIndicators" class="carousel slide grid_3 grid_4" data-ride="carousel">
+    <ol class="carousel-indicators">
+        <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
+        <li data-target="#carouselExampleIndicators" data-slide-to="4"></li>
+    </ol>
+    <div class="carousel-inner">
+        <div class="carousel-item active item">
+            <div class="carousel-caption">
+                <h2>Skin Care</h2>
+                <p>Enhance your skin health with our advanced solutions.</p>
+            </div>
+        </div>
+        <div class="carousel-item item item2">
+            <div class="carousel-caption">
+                <h2>Side Effects Monitoring</h2>
+                <p>Monitor and manage side effects effectively.</p>
+            </div>
+        </div>
+        <div class="carousel-item item item3">
+            <div class="carousel-caption">
+                <h2>Treatment Tracker</h2>
+                <p>Keep track of your treatment progress over time.</p>
+            </div>
+        </div>
+        <div class="carousel-item item item4">
+            <div class="carousel-caption">
+                <h2>Health Hub</h2>
+                <p>Access a wealth of information and resources for your health.</p>
+            </div>
+        </div>
+        <div class="carousel-item item item5">
+            <div class="carousel-caption">
+                <h2>Chatbot</h2>
+                <p>Get instant help and answers with our interactive chatbot.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+    <div class="row">
+        <div class="col-md-12 text-center">
+            <h2>How It Works</h2>
+            <p>Our comprehensive system offers a seamless experience to help you manage your skin health effectively. Here’s how it works:</p>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="feature-box">
+                    <a href="/skincare" class="feature-link">
+                        <img src="\static\images\img-1.jpg" alt="Image Analysis" class="feature-img">
+                        <h3>Image Analysis</h3>
+                        <p>Analyze images for potential skin issues.</p>
+                    </a>
+                </div>
+                
+            </div>
+            <div class="col-md-4">
+                <a href="/tracker" class="feature-link">
+                    <div class="feature-box">
+                        <img src="\static\images\img-2.jpg" alt="Symptom Tracking" class="feature-img">
+                        <h3>Symptom Tracking</h3>
+                        <p>Track your symptoms and progress over time.</p>
+                    </div>
+                </a>
+                
+            </div>
+            <div class="col-md-4">
+                <a href="/hub" class="feature-link">
+                    <div class="feature-box">
+                        <img src="\static\images\img-3.png" alt="Hospital Recommendations" class="feature-img">
+                        <h3>Hospital Recommendations</h3>
+                        <p>Receive personalized recommendations for the best hospitals and specialists.</p>
+                    </div>
+                </a>
+                
+            </div>
+        </div>
+    </div>
+
+    <!-- Modals -->
+    <!-- Feature 1 Modal -->
+    <div class="modal fade" id="feature1Modal" tabindex="-1" role="dialog" aria-labelledby="feature1ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feature1ModalLabel">Image Analysis</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Detailed information about image analysis.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature 2 Modal -->
+    <div class="modal fade" id="feature2Modal" tabindex="-1" role="dialog" aria-labelledby="feature2ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feature2ModalLabel">Symptom Tracking</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Detailed information about symptom tracking.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Feature 3 Modal -->
+    <div class="modal fade" id="feature3Modal" tabindex="-1" role="dialog" aria-labelledby="feature3ModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feature3ModalLabel">Hospital Recommendations</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Detailed information about hospital recommendations.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2024 EPICARE. All rights reserved. | <a >Privacy Policy</a> | <a >Terms of Service</a></p>
+    </footer>
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>    
+</body>
+</html>
